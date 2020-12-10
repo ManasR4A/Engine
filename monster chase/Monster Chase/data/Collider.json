@@ -1,0 +1,22 @@
+{
+	"GameObject" :
+	{
+		"Initial Location" : [-200.0, 0.0]
+	},
+
+
+	
+	"CollisionObject" :
+	{
+		"AABB":
+		{
+			"Center" : [0.0, 0.0],
+			"Extents" : [50.0, 100.0]
+		}
+	},
+
+	"Renderable" :
+	{
+		"Sprite" : "data\\Collider.dds"
+	}
+}

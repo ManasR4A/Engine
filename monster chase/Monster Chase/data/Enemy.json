@@ -1,0 +1,28 @@
+{
+	"GameObject" :
+	{
+		"Initial Location" : [0.0, -200.0]
+	},
+
+	"PhysicsObject" :
+	{
+		"Mass" : 10.0,
+		"DragConstant" : 0.1,
+		"OtherForces" : [0.0, 0.0],
+		"Gravity" : [0.0, 0.0]
+	},
+	
+	"CollisionObject" :
+	{
+		"AABB":
+		{
+			"Center" : [0, 118.0],
+			"Extents" : [160.0, 118.0]
+		}
+	},
+
+	"Renderable" :
+	{
+		"Sprite" : "data\\BadGuy.dds"
+	}
+}
