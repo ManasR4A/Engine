@@ -1,4 +1,4 @@
-# u1268389
+# Monster Hop
 
 Gameplay:
 Use the GoodGuy Charector to Bop the enemy on the head.
