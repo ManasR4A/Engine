@@ -20,6 +20,9 @@
 
 namespace Engine
 {
+
+#define _USE_CUSTOM_HEAP_MANAGER
+
 	// timer for the engine
 	static Timer * T;
 	//static SmartPointer<Timer> T;
@@ -28,7 +31,7 @@ namespace Engine
 	static float deltaT = 0;
 
 	// Initialize all the Systems.
-	bool Initialize();
+	bool Initialize(bool i_bCustomHeapManager = false);
 
 	// Execute the Tick functions of all the Systems.
 	void Tick();

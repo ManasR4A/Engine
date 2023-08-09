@@ -14,25 +14,22 @@
 #include "MemorySystem.h"
 #endif // _DEBUG
 
+using namespace Engine;
 
 bool MemorySystem_UnitTest();
-
-static MemorySystem MS;
+static HeapSystem MS;
 
 int InitializeHeapMangerTest()
 {
 
 	const size_t 		sizeHeap = 1024 * 1024;
 
-	// you may not need this if you don't use a descriptor pool
-	const unsigned int 	numDescriptors = 2048;
-
 	// Allocate memory for my test heap.
 	void* pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
 	assert(pHeapMemory);
 
 	// Create your HeapManager and FixedSizeAllocators.
-	MS.InitializeMemorySystem(pHeapMemory, sizeHeap, numDescriptors);
+	MS.InitializeHeapSystem(pHeapMemory, sizeHeap);
 
 #if defined _DEBUG
 	// prints some initial info
