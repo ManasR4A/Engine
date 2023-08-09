@@ -178,6 +178,11 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Memory\Allocators.h" />
+    <ClInclude Include="Memory\BitArray.h" />
+    <ClInclude Include="Memory\FixSizeAllocater.h" />
+    <ClInclude Include="Memory\HeapManager.h" />
+    <ClInclude Include="Memory\MemorySystem.h" />
     <ClInclude Include="nlohmann\json.hpp" />
     <ClInclude Include="Physics\Physics.h" />
     <ClInclude Include="Physics\Physics_Inl.h" />
@@ -203,6 +208,11 @@
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
+    <ClCompile Include="Memory\Allocators.cpp" />
+    <ClCompile Include="Memory\BitArray.cpp" />
+    <ClCompile Include="Memory\FixSizeAllocater.cpp" />
+    <ClCompile Include="Memory\HeapManager.cpp" />
+    <ClCompile Include="Memory\MemorySystem.cpp" />
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Renderer\Render.cpp" />
     <ClCompile Include="Renderer\Screen.cpp" />
