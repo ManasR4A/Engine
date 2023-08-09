@@ -344,127 +344,126 @@ BlockDescriptor * HeapManager::coalesce(BlockDescriptor * i_LeftBlock, BlockDesc
 // free() override.
 bool HeapManager::_free(void * i_ptr)
 {
-	BlockDescriptor *					BlockToFree;
-	// assert that pointer to the heap manager object exists 
+	if (AllocationList == nullptr) // No outstanding allocation found
+		return false;
 
-	if (AllocationList != nullptr) // Only run if there is something in the allocation list
+	BlockDescriptor *					BlockToFree = nullptr;
+
+	// CHECKING IF THE GIVEN POINTER EXISTS IN THE ALLOCATION LIST
+	TempListTraverse = AllocationList;
+	while (TempListTraverse != nullptr)
 	{
-		// CHECKING IF THE GIVEN POINTER EXISTS IN THE ALLOCATION LIST
-		TempListTraverse = AllocationList;
-		while (TempListTraverse != nullptr)
+		if (TempListTraverse->UserMemoryPointer == i_ptr) // pointer found in the allocated list
 		{
-			if (TempListTraverse->UserMemoryPointer == i_ptr) // pointer found in the allocated list
+			// POINT TO THE BLOCKTOFREE & REARRANGE THE ALLOCATIONLIST
+			BlockToFree = TempListTraverse; 
+			std::cout << "\nFound " << static_cast<void *>(BlockToFree);
+			// If the BlockToFree is first in Allocation List
+			if (BlockToFree == AllocationList)
 			{
-				// POINT TO THE BLOCKTOFREE & REARRANGE THE ALLOCATIONLIST
-				BlockToFree = TempListTraverse; 
-				std::cout << "\nFound " << static_cast<void *>(BlockToFree);
-				// If the BlockToFree is first in Allocation List
-				if (BlockToFree == AllocationList)
-				{
-					AllocationList = BlockToFree->NextBlockDescriptor;
-					if (AllocationList != nullptr) // If allocation List was more than one blocks
-						AllocationList->PrevDescriptor = nullptr;
-					std::cout << "\nFreed at the head of Allioction " << static_cast<void *>(BlockToFree);
-					break;
-				}
-
-				// If the BlockToFree is at the end of the Allocation List
-				else if (BlockToFree->NextBlockDescriptor == nullptr && BlockToFree != AllocationList)
-				{
-					BlockToFree->PrevDescriptor->NextBlockDescriptor = nullptr;
-					std::cout << "\nFreed at the tail of Allocation " << static_cast<void *>(BlockToFree);
-					break;
-				}
-
-				// If the BlockToFree is in the mid of Allocation List
-				else
-				{
-					BlockToFree->PrevDescriptor->NextBlockDescriptor = BlockToFree->NextBlockDescriptor;
-					BlockToFree->NextBlockDescriptor->PrevDescriptor = BlockToFree->PrevDescriptor;
-					std::cout << "\nFreed from the mid of Allocation " << static_cast<void *>(BlockToFree);
-					break;
-				}
-			}
-			TempListTraverse = TempListTraverse->NextBlockDescriptor; // goto next block in AllocationList
-		}
-
-		// MOVING THE BLOCKTOFREE IN THE APPROPRIATE PLACE IN THE FREE LIST : INCREASING ORDER OF USER MEM ADDRESS
-		if (TempListTraverse != nullptr) // Only if pointer found
-		{
-			// If the FreeList is empty
-			if (FreeList == nullptr)
-			{
-				FreeList = BlockToFree;
-				BlockToFree->PrevDescriptor = nullptr;
-				BlockToFree->NextBlockDescriptor = nullptr;
-				std::cout << "\nInitialized FreeList with " << BlockToFree << "\n";
+				AllocationList = BlockToFree->NextBlockDescriptor;
+				if (AllocationList != nullptr) // If allocation List was more than one blocks
+					AllocationList->PrevDescriptor = nullptr;
+				std::cout << "\nFreed at the head of Allioction " << static_cast<void *>(BlockToFree);
+				break;
 			}
 
-			// If FreeList isn't empty
+			// If the BlockToFree is at the end of the Allocation List
+			else if (BlockToFree->NextBlockDescriptor == nullptr && BlockToFree != AllocationList)
+			{
+				BlockToFree->PrevDescriptor->NextBlockDescriptor = nullptr;
+				std::cout << "\nFreed at the tail of Allocation " << static_cast<void *>(BlockToFree);
+				break;
+			}
+
+			// If the BlockToFree is in the mid of Allocation List
 			else
 			{
-				TempListTraverse = FreeList;
-				while (TempListTraverse != nullptr) // traversing FreeList to find the position
-				{
-					if (BlockToFree->UserMemoryPointer < TempListTraverse->UserMemoryPointer) // only execute if the blocktofree gets the appropriate position
-					{
-						// redo connections such that the BlockToFree is in Free list
-						BlockToFree->NextBlockDescriptor = TempListTraverse;
-
-						if (TempListTraverse->PrevDescriptor == nullptr) // If the BlockToFree goes on the font of the FreeList
-						{
-							BlockToFree->PrevDescriptor = nullptr;
-							FreeList = BlockToFree;
-							TempListTraverse->PrevDescriptor = BlockToFree;
-							std::wcout << "\nadded block " << BlockToFree << " at the front of FreeList\n";
-							std::wcout << "\nadded block " << BlockToFree << " at the front of FreeList\n";
-							break;
-						}
-
-						else // If the BlockToFree goes anywhere else in the FreeList
-						{
-							BlockToFree->PrevDescriptor = TempListTraverse->PrevDescriptor;
-							BlockToFree->PrevDescriptor->NextBlockDescriptor = BlockToFree;
-							TempListTraverse->PrevDescriptor = BlockToFree;
-							std::wcout << "\nadded block " << BlockToFree << " in the mid of FreeList\n";
-							break;
-						}
-					}
-					TempListTraverse = TempListTraverse->NextBlockDescriptor; // update statement if this is not the position
-				}
-				// To handel if the Block to free goes at the end of FreeList
-				if (TempListTraverse == nullptr)
-				{
-					TempListTraverse = FreeList;
-					while (TempListTraverse->NextBlockDescriptor != nullptr) // get to the last element of the FreeList
-						TempListTraverse = TempListTraverse->NextBlockDescriptor;
-
-					// add the BlockToFree at the end of the FreeList
-					BlockToFree->PrevDescriptor = TempListTraverse;
-					TempListTraverse->NextBlockDescriptor = BlockToFree;
-					BlockToFree->NextBlockDescriptor = nullptr;
-					std::wcout << "\nadded block " << BlockToFree << " at the end of FreeList\n";
-				}
+				BlockToFree->PrevDescriptor->NextBlockDescriptor = BlockToFree->NextBlockDescriptor;
+				BlockToFree->NextBlockDescriptor->PrevDescriptor = BlockToFree->PrevDescriptor;
+				std::cout << "\nFreed from the mid of Allocation " << static_cast<void *>(BlockToFree);
+				break;
 			}
 		}
-		else // Pointer not found in our allocated list
-		{
-			std::wcout << "\nPointer not allocated\n";
-			return false;
-		}
-			
-
-		// CHECKING CONDITION FOR COALESCE RIGHT & LEFT OF CURRENT NODE IN FREE LIST AND CALLING COALESCE() ACCORDINGLY
-		if (BlockToFree->NextBlockDescriptor != nullptr && (reinterpret_cast<int8_t *>(BlockToFree) + BlockToFree->SizeOfAllocation) == reinterpret_cast<int8_t *>(BlockToFree->NextBlockDescriptor))
-			BlockToFree = coalesce(BlockToFree, BlockToFree->NextBlockDescriptor);
-		if (BlockToFree->PrevDescriptor != nullptr && reinterpret_cast<int8_t *>(BlockToFree->PrevDescriptor) + BlockToFree->PrevDescriptor->SizeOfAllocation == reinterpret_cast<int8_t *>(BlockToFree))
-			BlockToFree = coalesce(BlockToFree->PrevDescriptor, BlockToFree);
-
-		return true;
+		TempListTraverse = TempListTraverse->NextBlockDescriptor; // goto next block in AllocationList
 	}
 
-	else // No outstanding allocation found
+	if (TempListTraverse == nullptr) // Pointer not found in our allocated list
+	{
+		std::wcout << "\nPointer not allocated\n";
 		return false;
+	}
+
+	// MOVING THE BLOCKTOFREE IN THE APPROPRIATE PLACE IN THE FREE LIST : INCREASING ORDER OF USER MEM ADDRESS
+	if (TempListTraverse != nullptr) // Only if pointer found
+	{
+		// If the FreeList is empty
+		if (FreeList == nullptr)
+		{
+			if (BlockToFree == nullptr)
+				std::cout << "\nEngine/Memory System: Unintialized BlockToFree in _free()";
+			FreeList = BlockToFree;
+			BlockToFree->PrevDescriptor = nullptr;
+			BlockToFree->NextBlockDescriptor = nullptr;
+			std::cout << "\nInitialized FreeList with " << BlockToFree << "\n";
+		}
+
+		// If FreeList isn't empty
+		else
+		{
+			TempListTraverse = FreeList;
+			while (TempListTraverse != nullptr) // traversing FreeList to find the position
+			{
+				if (BlockToFree->UserMemoryPointer < TempListTraverse->UserMemoryPointer) // only execute if the blocktofree gets the appropriate position
+				{
+					// redo connections such that the BlockToFree is in Free list
+					BlockToFree->NextBlockDescriptor = TempListTraverse;
+
+					if (TempListTraverse->PrevDescriptor == nullptr) // If the BlockToFree goes on the font of the FreeList
+					{
+						BlockToFree->PrevDescriptor = nullptr;
+						FreeList = BlockToFree;
+						TempListTraverse->PrevDescriptor = BlockToFree;
+						std::wcout << "\nadded block " << BlockToFree << " at the front of FreeList\n";
+						std::wcout << "\nadded block " << BlockToFree << " at the front of FreeList\n";
+						break;
+					}
+
+					else // If the BlockToFree goes anywhere else in the FreeList
+					{
+						BlockToFree->PrevDescriptor = TempListTraverse->PrevDescriptor;
+						BlockToFree->PrevDescriptor->NextBlockDescriptor = BlockToFree;
+						TempListTraverse->PrevDescriptor = BlockToFree;
+						std::wcout << "\nadded block " << BlockToFree << " in the mid of FreeList\n";
+						break;
+					}
+				}
+				TempListTraverse = TempListTraverse->NextBlockDescriptor; // update statement if this is not the position
+			}
+			// To handel if the Block to free goes at the end of FreeList
+			if (TempListTraverse == nullptr)
+			{
+				TempListTraverse = FreeList;
+				while (TempListTraverse->NextBlockDescriptor != nullptr) // get to the last element of the FreeList
+					TempListTraverse = TempListTraverse->NextBlockDescriptor;
+
+				// add the BlockToFree at the end of the FreeList
+				BlockToFree->PrevDescriptor = TempListTraverse;
+				TempListTraverse->NextBlockDescriptor = BlockToFree;
+				BlockToFree->NextBlockDescriptor = nullptr;
+				std::wcout << "\nadded block " << BlockToFree << " at the end of FreeList\n";
+			}
+		}
+	}
+			
+
+	// CHECKING CONDITION FOR COALESCE RIGHT & LEFT OF CURRENT NODE IN FREE LIST AND CALLING COALESCE() ACCORDINGLY
+	if (BlockToFree->NextBlockDescriptor != nullptr && (reinterpret_cast<int8_t *>(BlockToFree) + BlockToFree->SizeOfAllocation) == reinterpret_cast<int8_t *>(BlockToFree->NextBlockDescriptor))
+		BlockToFree = coalesce(BlockToFree, BlockToFree->NextBlockDescriptor);
+	if (BlockToFree->PrevDescriptor != nullptr && reinterpret_cast<int8_t *>(BlockToFree->PrevDescriptor) + BlockToFree->PrevDescriptor->SizeOfAllocation == reinterpret_cast<int8_t *>(BlockToFree))
+		BlockToFree = coalesce(BlockToFree->PrevDescriptor, BlockToFree);
+
+	return true;
 }
 
 // collects all the free blocks that can be coalasced.
