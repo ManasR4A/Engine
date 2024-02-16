@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RefCounter.h"
+
 namespace Engine
 {
 
@@ -44,8 +46,8 @@ namespace Engine
 
 		// default Constructors
 		WeakPointer() :
-			Refs(nullptr),
-			m_ptr(nullptr)
+			m_ptr(nullptr),
+			Refs(nullptr)
 		{}
 
 
