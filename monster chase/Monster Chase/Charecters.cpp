@@ -152,7 +152,7 @@ namespace Game
 
 	void enemy::CollisionResponse()
 	{
-		DebugPrint120("\nEnemy Collided.");
+		DebugPrint120("\nEnemy Collided.\n");
 		AI();
 	}
 
