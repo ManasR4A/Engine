@@ -1,10 +1,14 @@
 #include "Core.h"
 #include "Timer/Timer.h"
 
-bool Engine::Initialize()
+bool Engine::Initialize(bool i_bCustomHeapManager)
 {
 	T = new Timer;
 	T->Initialize();
+
+#ifdef _USE_CUSTOM_HEAP_MANAGER
+	
+#endif
 	PhysicsSystem::InitializePhysicsSystem();
 	CollisionSystem::Initialize();
 	RenderSystem::Initialize();
