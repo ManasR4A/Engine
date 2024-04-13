@@ -50,7 +50,6 @@ namespace Game
 }
 
 
-
 #pragma region Old Code
 
 //void freeMem()
@@ -190,6 +189,28 @@ bool MatrixUnitTest()
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
 	// Initialize GLib
+
+#if USE_SFML
+	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	sf::CircleShape shape(100.f);
+	shape.setFillColor(sf::Color::Green);
+
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+
+		window.clear();
+		window.draw(shape);
+		window.display();
+	}
+
+	return 0;
+#else
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1280, 720);
 	Engine::Initialize();
 	InitializeGame();
@@ -218,6 +239,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		if (!Engine::ShutDown())
 			DebugPrint120("\nEngine Shutdown Failed!/n");
 	}
+#endif
+	
 #if defined _DEBUG
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG
