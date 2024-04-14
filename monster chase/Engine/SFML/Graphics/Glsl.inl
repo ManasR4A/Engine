@@ -27,8 +27,8 @@
 /// \brief Helper functions to copy sf::Transform to sf::Glsl::Mat3/4
 ///
 ////////////////////////////////////////////////////////////
-void SFML_GRAPHICS_API copyMatrix(const Transform& source, Matrix<3, 3>& dest);
-void SFML_GRAPHICS_API copyMatrix(const Transform& source, Matrix<4, 4>& dest);
+void SFML_GRAPHICS_API copyMatrix(const sf::Transform& source, sf::priv::Matrix<3, 3>& dest);
+void SFML_GRAPHICS_API copyMatrix(const sf::Transform& source, sf::priv::Matrix<4, 4>& dest);
 
 ////////////////////////////////////////////////////////////
 /// \brief Copy array-based matrix with given number of elements
@@ -43,8 +43,8 @@ void SFML_GRAPHICS_API copyMatrix(const float* source, std::size_t elements, flo
 /// \brief Helper functions to copy sf::Color to sf::Glsl::Vec4/Ivec4
 ///
 ////////////////////////////////////////////////////////////
-void SFML_GRAPHICS_API copyVector(const Color& source, Vector4<float>& dest);
-void SFML_GRAPHICS_API copyVector(const Color& source, Vector4<int>& dest);
+void SFML_GRAPHICS_API copyVector(const sf::Color& source, Vector4<float>& dest);
+void SFML_GRAPHICS_API copyVector(const sf::Color& source, Vector4<int>& dest);
 
 
 ////////////////////////////////////////////////////////////

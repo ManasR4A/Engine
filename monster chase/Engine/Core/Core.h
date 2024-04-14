@@ -16,7 +16,6 @@
 #include "Actor/Actor.h"
 #include "Game Object/ObjectFactory.h"
 
-#include "SFML/Graphics.hpp"
 
 
 namespace Engine
