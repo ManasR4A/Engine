@@ -10,6 +10,7 @@
 #include "Charecters.h"
 #include "../Engine/Renderer/Screen.h"
 
+#include "SFML/Graphics.hpp"
 
 namespace Game
 {
@@ -209,7 +210,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		window.display();
 	}
 
-	return 0;
 #else
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1280, 720);
 	Engine::Initialize();
