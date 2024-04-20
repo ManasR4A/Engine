@@ -2,7 +2,7 @@
 #include "Containers/Poimters/SmartPointer.h"
 #include "Game Object/Entity.h"
 
-#include "GLib.h"
+//#include "GLib.h"
 
 #include "vector"
 
@@ -12,7 +12,7 @@ namespace Engine
 	{
 	public:
 		WeakPointer<GameObject> GO;
-		GLib::Sprite* Sprite = nullptr;
+		//GLib::Sprite* Sprite = nullptr;
 
 		bool Render();
 

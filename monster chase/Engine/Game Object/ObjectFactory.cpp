@@ -105,7 +105,7 @@ namespace Engine
 				const char* SpriteChar = Sprite.c_str();
 
 				// Creating sprite
-				o_ActorToCreate.RO->Sprite = CreateSprite(SpriteChar);
+				// o_ActorToCreate.RO->Sprite = CreateSprite(SpriteChar);
 				o_ActorToCreate.RO->GO = o_ActorToCreate.GO;
 				DebugPrint120("SpriteObject Created.\n");
 			}

@@ -17,7 +17,7 @@ namespace Engine
 	{
 		assert(i_RO);
 		assert(i_RO->GO);
-		assert(i_RO->Sprite);
+		// assert(i_RO->Sprite);
 		AllRenderObjects.push_back(i_RO);
 		return true;
 	}
@@ -47,9 +47,9 @@ namespace Engine
 	void RenderSystem::Tick(float i_deltaT)
 	{
 		// IMPORTANT: Tell GLib that we want to start rendering
-		GLib::BeginRendering(Background);
+		// GLib::BeginRendering(Background);
 		// Tell GLib that we want to render some sprites
-		GLib::Sprites::BeginRendering();
+		//GLib::Sprites::BeginRendering();
 
 		size_t count = AllRenderObjects.size();
 		if (count > 0)
@@ -63,9 +63,9 @@ namespace Engine
 		}
 
 		// Tell GLib we're done rendering sprites
-		GLib::Sprites::EndRendering();
+		// GLib::Sprites::EndRendering();
 		// IMPORTANT: Tell GLib we're done rendering
-		GLib::EndRendering();
+		// GLib::EndRendering();
 	}
 
 	bool RenderSystem::Shutdown()
@@ -85,41 +85,41 @@ namespace Engine
 		}
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
-		GLib::Shutdown();
+		// GLib::Shutdown();
 
 		return SuccessfulShutdown;
 	}
 
 	bool RenderObject::Render()
 	{
-		if (GO && Sprite)
-		{
-			auto SmartGO = GO.GetSmartPointer();
+		//if (GO && Sprite)
+		//{
+		//	auto SmartGO = GO.GetSmartPointer();
 
-			// calcculating Offset
-			static GLib::Point2D Offset;
-			Offset.x = SmartGO->Location.x;
-			Offset.y = SmartGO->Location.y;
+		//	// calcculating Offset
+		//	static GLib::Point2D Offset;
+		//	Offset.x = SmartGO->Location.x;
+		//	Offset.y = SmartGO->Location.y;
 
-			// Tell GLib to render this sprite at our calculated location
-			GLib::Render(*Sprite, Offset, 0.0f);
-			SmartGO = nullptr;
-			return true;
-		}
+		//	// Tell GLib to render this sprite at our calculated location
+		//	GLib::Render(*Sprite, Offset, 0.0f);
+		//	SmartGO = nullptr;
+		//	return true;
+		//}
 		return false;
 	}
 	
 	bool RenderObject::Release()
 	{
-		assert(GO);
-		GO = nullptr;
-		if (Sprite)
-		{
-			GLib::Release(this->Sprite);
-			Sprite = nullptr;
-			DebugPrint120("\nSprite Released.\n");
-			return true;
-		}
+		//assert(GO);
+		//GO = nullptr;
+		//if (Sprite)
+		//{
+		//	GLib::Release(this->Sprite);
+		//	Sprite = nullptr;
+		//	DebugPrint120("\nSprite Released.\n");
+		//	return true;
+		//}
 		return false;
 	}
 

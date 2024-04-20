@@ -4,7 +4,7 @@
 #include "Collision/Collision.h"
 #include "Renderer/Render.h"
 #include "Containers/Poimters/SmartPointer.h"
-#include "GLib.h"
+//#include "GLib.h"
 
 namespace Engine
 {

@@ -211,34 +211,34 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 	}
 
 #else
-	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1280, 720);
-	Engine::Initialize();
-	InitializeGame();
-	if (bSuccess)
-	{
-		// Set a callback for notification of key presses
-		GLib::SetKeyStateChangeCallback(TestKeyCallback);
+	//bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 1280, 720);
+	//Engine::Initialize();
+	//InitializeGame();
+	//if (bSuccess)
+	//{
+	//	// Set a callback for notification of key presses
+	//	GLib::SetKeyStateChangeCallback(TestKeyCallback);
 
-		bool bQuit = false;
+	//	bool bQuit = false;
 
-		do
-		{
-			// IMPORTANT: We need to let GLib do it's thing. 
-			GLib::Service(bQuit);
-			
-			if (!bQuit)
-			{
-				Engine::Tick();
-				if (p->QuitRequested)
-					bQuit = true;
-			}
-		} while (bQuit == false);
+	//	do
+	//	{
+	//		// IMPORTANT: We need to let GLib do it's thing. 
+	//		GLib::Service(bQuit);
+	//		
+	//		if (!bQuit)
+	//		{
+	//			Engine::Tick();
+	//			if (p->QuitRequested)
+	//				bQuit = true;
+	//		}
+	//	} while (bQuit == false);
 
-		ShutdownGame();
+	//	ShutdownGame();
 
-		if (!Engine::ShutDown())
-			DebugPrint120("\nEngine Shutdown Failed!/n");
-	}
+	//	if (!Engine::ShutDown())
+	//		DebugPrint120("\nEngine Shutdown Failed!/n");
+	//}
 #endif
 	
 #if defined _DEBUG
